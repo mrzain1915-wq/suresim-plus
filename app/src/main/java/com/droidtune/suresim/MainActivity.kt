@@ -34,7 +34,7 @@ import java.util.Date
 import java.util.Locale
 
 /**
- * SureSIM Plus settings UI.
+ * eSIM Enabler settings UI.
  *
  * Two toggles, saved in SharedPreferences and read by the hook in the
  * target app's process through the framework's RemotePreferences
@@ -104,7 +104,7 @@ private fun SettingsScreen() {
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         Text(
-            text = "SureSIM Plus",
+            text = "eSIM Enabler",
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.Bold
         )
@@ -149,7 +149,7 @@ private fun SettingsScreen() {
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = "1. Install this APK.\n" +
-                        "2. In LSPosed / Vector Manager, enable SureSIM Plus for the apps that need eSIM.\n" +
+                        "2. In LSPosed / Vector Manager, enable eSIM Enabler for the apps that need eSIM.\n" +
                         "3. Reboot your phone.\n" +
                         "4. Open this app and turn eSIM support on.\n" +
                         "Changes to the switches above take effect without another reboot."

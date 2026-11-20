@@ -11,7 +11,7 @@ import io.github.libxposed.api.XposedModule
 import io.github.libxposed.api.XposedModuleInterface.PackageReadyParam
 
 /**
- * SureSIM Plus — eSIM support module.
+ * eSIM Enabler — eSIM support module.
  *
  * Based on SureSIM by thatmarcel (AGPL-3.0). This fork only ever spoofs
  * eSIM support (EuiccManager.isEnabled) and, optionally, copies the eSIM
@@ -30,7 +30,7 @@ class ModuleMain : XposedModule() {
     }
 
     /**
-     * Reads the settings the user chose in the SureSIM Plus app.
+     * Reads the settings the user chose in the eSIM Enabler app.
      * Runs on every hook call so a toggle change takes effect without a
      * reboot (after the first reboot that loads the module).
      *
@@ -143,7 +143,7 @@ class ModuleMain : XposedModule() {
                     )
                 )
 
-                // Tell the SureSIM Plus app (only the time, never the
+                // Tell the eSIM Enabler app (only the time, never the
                 // code) so its status line can show the last copy time.
                 val broadcast = Intent(Prefs.ACTION_CODE_COPIED).apply {
                     setPackage("com.droidtune.suresim")

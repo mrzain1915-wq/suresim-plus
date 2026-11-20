@@ -1,7 +1,7 @@
 package com.droidtune.suresim
 
 /**
- * Shared constants for SureSIM Plus.
+ * Shared constants for eSIM Enabler.
  *
  * The settings UI (MainActivity) writes these SharedPreferences; the hook
  * (ModuleMain) reads them from the target app's process through the
