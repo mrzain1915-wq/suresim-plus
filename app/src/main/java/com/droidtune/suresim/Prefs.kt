@@ -4,8 +4,9 @@ package com.droidtune.suresim
  * Shared constants for SureSIM Plus.
  *
  * The settings UI (MainActivity) writes these SharedPreferences; the hook
- * (ModuleMain) reads them from the target app's process via
- * XSharedPreferences. Only eSIM support is ever spoofed — nothing else.
+ * (ModuleMain) reads them from the target app's process through the
+ * framework's RemotePreferences (getRemotePreferences). Only eSIM support
+ * is ever spoofed — nothing else.
  */
 object Prefs {
     const val FILE_NAME = "suresim_plus"

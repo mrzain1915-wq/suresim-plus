@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.Intent
 import android.telephony.euicc.DownloadableSubscription
 import android.telephony.euicc.EuiccManager
-import io.github.libxposed.api.XSharedPreferences
 import io.github.libxposed.api.XposedModule
 import io.github.libxposed.api.XposedModuleInterface.PackageReadyParam
 
@@ -35,18 +34,18 @@ class ModuleMain : XposedModule() {
      * Runs on every hook call so a toggle change takes effect without a
      * reboot (after the first reboot that loads the module).
      *
-     * If the preferences cannot be read at all (for example the file is
-     * not world-readable on this Android version), the module falls back
+     * The settings are read through the framework's RemotePreferences
+     * (XSharedPreferences does not exist in the libxposed API): the
+     * module app's XposedProvider serves its own SharedPreferences
+     * file to the framework, so no world-readable file is needed.
+     *
+     * If the preferences cannot be read at all, the module falls back
      * to its original behaviour — eSIM on, copy on — so it still works
      * out of the box. An explicit "off" in the app is always respected.
      */
     private fun readPrefs(): Pair<Boolean, Boolean> {
         return try {
-            val prefs = XSharedPreferences(
-                "com.droidtune.suresim",
-                Prefs.FILE_NAME
-            )
-            prefs.reload()
+            val prefs = getRemotePreferences(Prefs.FILE_NAME)
             val esimOn = prefs.getBoolean(
                 Prefs.KEY_ESIM_ENABLED,
                 Prefs.DEFAULT_ESIM_ENABLED
@@ -57,8 +56,8 @@ class ModuleMain : XposedModule() {
             )
             esimOn to copyOn
         } catch (e: Throwable) {
-            // Preferences unreadable (e.g. SELinux on Android 13+): fall
-            // back to the original always-on behaviour, never crash.
+            // Preferences unreadable: fall back to the original
+            // always-on behaviour, never crash.
             Prefs.DEFAULT_ESIM_ENABLED to Prefs.DEFAULT_COPY_CODE
         }
     }

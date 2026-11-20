@@ -29,7 +29,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -38,14 +37,13 @@ import java.util.Locale
  * SureSIM Plus settings UI.
  *
  * Two toggles, saved in SharedPreferences and read by the hook in the
- * target app's process via XSharedPreferences:
+ * target app's process through the framework's RemotePreferences
+ * (the module app's XposedProvider serves the settings file):
  *  - eSIM support on/off
  *  - copy activation code to clipboard on/off
  *
- * After every save the preferences file is made world-readable
- * (best-effort) so the hook process can read it. The status line shows
- * whether the module is on and the last time an activation code was
- * copied — never the code itself.
+ * The status line shows whether the module is on and the last time an
+ * activation code was copied — never the code itself.
  */
 class MainActivity : ComponentActivity() {
 
@@ -63,23 +61,6 @@ class MainActivity : ComponentActivity() {
 
 private fun loadPrefs(context: Context) =
     context.getSharedPreferences(Prefs.FILE_NAME, Context.MODE_PRIVATE)
-
-/** Best-effort: let the hook (another process) read our preferences. */
-private fun makePrefsWorldReadable(context: Context) {
-    try {
-        val prefsFile = File(
-            File(context.applicationInfo.dataDir, "shared_prefs"),
-            Prefs.FILE_NAME + ".xml"
-        )
-        val prefsDir = prefsFile.parentFile
-        prefsDir?.setReadable(true, false)
-        prefsDir?.setExecutable(true, false)
-        prefsFile.setReadable(true, false)
-    } catch (e: Throwable) {
-        // On Android 13+ SELinux may still block other processes from
-        // reading the file; the hook then falls back to always-on.
-    }
-}
 
 @Composable
 private fun SettingsScreen() {
@@ -101,7 +82,6 @@ private fun SettingsScreen() {
             .putBoolean(Prefs.KEY_ESIM_ENABLED, esimOn)
             .putBoolean(Prefs.KEY_COPY_CODE, copyOn)
             .apply()
-        makePrefsWorldReadable(context)
     }
 
     val dateFormat = SimpleDateFormat("dd MMM yyyy, HH:mm", Locale.getDefault())
