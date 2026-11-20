@@ -17,8 +17,8 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  SURESIM_VERSION: "1.0.1"
-  SURESIM_APK: "SureSIM-Plus-v1.0.1-Android.apk"
+  SURESIM_VERSION: "1.0.2"
+  SURESIM_APK: "SureSIM-Plus-v1.0.2-Android.apk"
 
 permissions:
   contents: read
@@ -80,7 +80,7 @@ jobs:
           "$build_tools/apksigner" verify --verbose --print-certs "$SURESIM_APK"
           badging="$($build_tools/aapt dump badging "$SURESIM_APK")"
           echo "$badging" | head -1
-          grep -F "package: name='com.droidtune.suresim' versionCode='2' versionName='1.0.1-debug'" <<<"$badging"
+          grep -F "package: name='com.droidtune.suresim' versionCode='3' versionName='1.0.2-debug'" <<<"$badging"
 
           sha256sum "$SURESIM_APK" > SHA256SUMS-Android.txt
           cat SHA256SUMS-Android.txt
@@ -96,10 +96,10 @@ jobs:
           retention-days: 30
 
   publish-android-release:
-    name: Publish SureSIM Plus v1.0.1 release
+    name: Publish SureSIM Plus v1.0.2 release
     if: >-
       github.event_name == 'workflow_dispatch' ||
-      (github.event_name == 'push' && contains(github.event.head_commit.message, 'Release SureSIM Plus v1.0.1'))
+      (github.event_name == 'push' && contains(github.event.head_commit.message, 'Release SureSIM Plus v1.0.2'))
     needs: [build]
     runs-on: ubuntu-latest
     permissions:
