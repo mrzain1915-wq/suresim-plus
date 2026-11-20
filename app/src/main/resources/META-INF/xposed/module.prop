@@ -1,3 +1,6 @@
 minApiVersion=101
 targetApiVersion=101
-staticScope=true
+# No staticScope: the scope is dynamic, so the user picks the apps in
+# LSPosed / Vector Manager. With staticScope=true the manager showed
+# "The module declared static scope" and an empty app list, and no app
+# could be selected at all.
