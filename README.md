@@ -56,11 +56,10 @@ preparing to install a profile. That is all it does.
   Android-17-only APIs, and every hook is guarded so a missing method
   simply does nothing, but no build has been run or tested on Android 17
   yet. Please report what happens on Android 17 before relying on it.
-- Known limit: on Android 13+ the hook may not be able to read the
-  app's settings file from another process (SELinux). If that happens
-  the module falls back to its original always-on behaviour, so it
-  still works — but the switches in the app may not take effect until
-  a future update finds a better way to share the settings.
+- Settings are shared with the hook through the framework's
+  RemotePreferences, so the switches in the app take effect in the
+  hooked apps. If the framework cannot read them, the module falls
+  back to its original always-on behaviour, so it still works.
 
 ## Building
 
