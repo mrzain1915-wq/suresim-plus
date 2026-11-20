@@ -23,7 +23,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "SureSIM Plus"
+rootProject.name = "eSIM Enabler"
 
 include(":app")
  

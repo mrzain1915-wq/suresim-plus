@@ -1,4 +1,4 @@
-# SureSIM Plus
+# eSIM Enabler
 
 **LSPosed / Vector module to spoof eSIM support — eSIM only, nothing else.**
 
@@ -19,7 +19,21 @@ preparing to install a profile. That is all it does.
   never sent anywhere. The app only shows the *time* the last code was
   copied.
 
-## What's new in this version (1.0.1)
+## What's new in this version (1.0.3)
+
+- New name: **eSIM Enabler**. Same app, same eSIM-only features — the
+  launcher name, in-app title and release file now say eSIM Enabler.
+  The package stays `com.droidtune.suresim`, so it still installs as
+  an update over 1.0.1 / 1.0.2.
+
+## What's new in version 1.0.2
+
+- Scope fix: `staticScope` was removed from `module.prop`. With it, the
+  LSPosed manager showed "The module declared static scope" and an empty
+  app list, and no app could be selected. Now the scope is dynamic: tick
+  the apps in LSPosed / Vector Manager as described in Install below.
+
+## What's new in version 1.0.1
 
 - Fix for AGP 9 / Gradle 9: the `org.jetbrains.kotlin.android` plugin is no
   longer required since AGP 9.0, so it has been removed from both build
@@ -28,7 +42,7 @@ preparing to install a profile. That is all it does.
 
 ## What's new in version 1.0
 
-- A real settings app: open **SureSIM Plus** and use the two switches.
+- A real settings app: open **eSIM Enabler** and use the two switches.
   - **eSIM support** — turn the spoof on or off.
   - **Copy activation code** — turn the clipboard copy on or off.
 - Status line: shows whether the module is on, and the last time an
@@ -43,11 +57,11 @@ preparing to install a profile. That is all it does.
 ## Install
 
 1. Install the APK (see Building below for the GitHub Actions build).
-2. Open **LSPosed / Vector Manager** and enable **SureSIM Plus** for the
+2. Open **LSPosed / Vector Manager** and enable **eSIM Enabler** for the
    apps that need eSIM (for example your carrier's app). Enabling it for
    Android System is not enough — eSIM is checked inside each app.
 3. Reboot your phone.
-4. Open **SureSIM Plus** and turn **eSIM support** on.
+4. Open **eSIM Enabler** and turn **eSIM support** on.
 
 ## Compatibility
 
@@ -67,7 +81,7 @@ Use Android Studio (or gradle directly) to generate an APK file, or use
 the GitHub Actions workflow in `.github/workflows/build-apk.yml`:
 push this project to a GitHub repo, open the **Actions** tab, run the
 workflow, then download the `android-release` artifact and install
-`SureSIM-Plus-v1.0.1-Android.apk`. The build signs with the pinned
+`eSIM-Enabler-v1.0.3-Android.apk`. The build signs with the pinned
 debug key in `app/debug.keystore`, so future updates install over it.
 
 ## Licence
