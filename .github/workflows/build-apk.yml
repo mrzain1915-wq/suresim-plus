@@ -38,13 +38,18 @@ jobs:
           distribution: temurin
           java-version: "17"
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
-
+      # The ubuntu runner already ships an Android SDK (ANDROID_HOME is
+      # set by the image) — the same setup the NOWAY builds use. Do NOT
+      # use android-actions/setup-android@v3: it failed on run #9
+      # ("Failed to find package 'tools'", sdkmanager exit 1) because
+      # it tries to install the removed legacy "tools" package.
+      # Install SDK 36 with the image's own sdkmanager instead.
       - name: Install Android SDK 36
         run: |
-          yes | sdkmanager --licenses || true
-          sdkmanager "platforms;android-36" "build-tools;36.0.0"
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 2 -name sdkmanager -type f | sort -V | tail -n 1)"
+          test -x "$SDKMANAGER"
+          yes | "$SDKMANAGER" --licenses || true
+          "$SDKMANAGER" "platforms;android-36" "build-tools;36.0.0"
 
       # Use the Gradle Wrapper, not a bare `gradle` command: the runner
       # does not install Gradle, and this project ships a wrapper pinned
