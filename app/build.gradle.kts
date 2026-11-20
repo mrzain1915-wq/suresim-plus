@@ -66,6 +66,13 @@ dependencies {
     // libxposed API is compile-only: the framework provides it at runtime.
     compileOnly(libs.xposed.api)
 
+    // libxposed "service" API: its manifest registers the XposedProvider
+    // ContentProvider in this app, which is how the framework reads our
+    // settings from the hooked app's process (getRemotePreferences).
+    // implementation, not compileOnly: the provider class must be inside
+    // this APK so the system can run it.
+    implementation(libs.xposed.service)
+
     implementation(platform(libs.compose.bom))
     implementation(libs.compose.ui)
     implementation(libs.compose.ui.tooling.preview)
