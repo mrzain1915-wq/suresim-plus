@@ -46,7 +46,11 @@ jobs:
       # Install SDK 36 with the image's own sdkmanager instead.
       - name: Install Android SDK 36
         run: |
-          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 2 -name sdkmanager -type f | sort -V | tail -n 1)"
+          SDKMANAGER="$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
+          if [ ! -x "$SDKMANAGER" ]; then
+            SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -maxdepth 3 -name sdkmanager -type f | sort -V | tail -n 1)"
+          fi
+          echo "sdkmanager: $SDKMANAGER"
           test -x "$SDKMANAGER"
           yes | "$SDKMANAGER" --licenses || true
           "$SDKMANAGER" "platforms;android-36" "build-tools;36.0.0"
